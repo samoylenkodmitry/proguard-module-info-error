@@ -1,7 +1,7 @@
 # proguard-module-info-error
 Simple little project that reproduce proguard error when importing a 3rd party library that have explicit rule to keep some other dependencies
 
-Trying to investigate the issue with module-info.class error https://community.guardsquare.com/t/cant-compile-android-jackson-duplicate-module-info-class/596/9
+Trying to investigate the issue with `module-info.class` error https://community.guardsquare.com/t/cant-compile-android-jackson-duplicate-module-info-class/596/9
 
 # What is this error?
 ```
@@ -12,10 +12,10 @@ Trying to investigate the issue with module-info.class error https://community.g
 # What is the reason?
 Some of your dependencies have `module-info.class` in them. 
 
-Normally proguard skip them. But if you wrongly write `-keep` rule that is too broad and keeps all package members then proguard will try to merge those `module-info.class` files into ouput jar and fail.
+Normally proguard skip them. But if you wrongly write `-keep` rule that is too broad and keeps all package members then proguard will try to merge those `module-info.class` files into output jar and fail.
 
 # But what if my keep rules are correct?
-Then you need to investigate resulting proguard rules that all your dependencies attached with them.
+Then you need to investigate the resulting proguard rules that all your dependencies attached with them.
 
 You can do it by placing 
 ```
