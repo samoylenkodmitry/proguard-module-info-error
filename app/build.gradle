@@ -1,0 +1,68 @@
+System.out.println("R8: " + this['android.enableR8'])
+System.out.println("D8: " + this['android.enableD8'])
+repositories {
+    maven { url "https://jitpack.io" }
+    mavenCentral()
+    maven { url "https://maven.google.com" }
+    jcenter()
+    google()
+    flatDir {
+        dirs 'libs'
+    }
+}
+buildscript {
+    configurations.all {
+        resolutionStrategy {
+            dependencySubstitution {
+                substitute module('net.sf.proguard:proguard-gradle') with module('com.guardsquare:proguard-gradle:7.0.1')
+            }
+        }
+    }
+    repositories {
+        jcenter()
+        google()
+    }
+    dependencies {
+        classpath "com.android.tools.build:gradle:4.1.2"
+        classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.3.72'
+    }
+}
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'kotlin-android-extensions'
+android {
+    compileSdkVersion 29
+      lintOptions {
+          abortOnError false
+      }
+      compileOptions {
+          sourceCompatibility JavaVersion.VERSION_1_8
+          targetCompatibility JavaVersion.VERSION_1_8
+      }
+      defaultConfig {
+          targetSdkVersion 29
+          minSdkVersion 21
+          applicationId 'com.example'
+      }
+      buildTypes {
+          release {
+              minifyEnabled true
+              proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+          }
+      }
+}
+dependencies {
+    implementation(name:'tricky_lib', ext:'aar')
+
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:1.4.31"
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.3'
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'androidx.multidex:multidex:2.0.1'
+    implementation "com.google.android.exoplayer:exoplayer-ui:2.13.1"
+    implementation 'com.github.thirdegg:chromecast-android-api-v2:0.11.6'
+
+    //implementation "com.fasterxml.jackson.core:jackson-core:2.12.1"
+    //implementation "com.fasterxml.jackson.core:jackson-annotations:2.12.1"
+    //implementation "com.fasterxml.jackson.core:jackson-databind:2.12.1"
+}
